@@ -1,0 +1,53 @@
+{
+    "name": "dojotools",
+    "displayName": "dojotools",
+    "description": "Dojo Tools",
+    "version": "0.0.1",
+    "publisher": "jefferson",
+    "repository": {
+        "url": "https://github.com/mcgyver/dojotools.git",
+        "type": "Github"
+    },
+    "engines": {
+        "vscode": "^1.21.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.startRoundDojo",
+        "onCommand:extension.stopRoundDojo",
+        "onCommand:extension.pauseRoundDojo"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.startRoundDojo",
+                "title": "Start Dojo"
+            },
+            {
+                "command": "extension.stopRoundDojo",
+                "title": "Stop Dojo"
+            },
+            {
+                "command": "extension.resetRoundDojo",
+                "title": "Reset Dojo"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
