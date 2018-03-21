@@ -1,9 +1,9 @@
 {
     "name": "dojotools",
-    "displayName": "dojotools",
+    "displayName": "Dojo Tools",
     "description": "Dojo Tools",
-    "version": "0.0.1",
-    "publisher": "jefferson",
+    "version": "0.1.0",
+    "publisher": "Jefferson Santos",
     "repository": {
         "url": "https://github.com/mcgyver/dojotools.git",
         "type": "Github"
@@ -11,8 +11,13 @@
     "engines": {
         "vscode": "^1.21.0"
     },
+    "icon": "icon.png",
+        "galleryBanner": {
+        "color": "#FF0000",
+        "theme": "dark"
+    },
     "categories": [
-        "Other"
+        "Dojo"
     ],
     "activationEvents": [
         "onCommand:extension.startRoundDojo",
