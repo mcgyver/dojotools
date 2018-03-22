@@ -1,3 +1,4 @@
+import { DojoStatus } from './dojoStatus';
 import { window, StatusBarAlignment, StatusBarItem } from 'vscode';
 
 class RoundManager {
@@ -5,8 +6,10 @@ class RoundManager {
     private toggleOnOff: boolean = false;
     private timing: any = undefined;
     private time: number = 0;
-
-    private _statusBarText: StatusBarItem;
+    private toolTip: string = "Start Dojo";
+    private icon: string = `$(triangle-right) `;
+    private statusBarText: StatusBarItem;
+    private dojoStatus: DojoStatus = DojoStatus.Stoped;
 
     private text: string = "";
 
@@ -15,15 +18,22 @@ class RoundManager {
         this.time = time;
         this.seconds = time;
 
-        this._statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
-        this._statusBarText.show();
+        this.statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
+        this.statusBarText.show();
+        this.text = "Stoped";
+        this.updateDisplay();
     }
 
     public resume() {
         if (!this.toggleOnOff) {
             this.text = "Running";
             this.toggleOnOff = true;
+            this.dojoStatus = DojoStatus.Working;
+            this.toolTip = "Stop Dojo";
+            this.icon = `$(primitive-square)`;
+            this.statusBarText.command = 'extension.stopRoundDojo';
             this.countingSeconds();
+            
         }
     }
 
@@ -31,6 +41,10 @@ class RoundManager {
         this.text = "Paused";
         clearTimeout(this.timing);
         this.toggleOnOff = false;
+        this.icon = `$(triangle-right) `;
+        this.dojoStatus = DojoStatus.Stoped;
+        this.toolTip = "Start Dojo";
+        this.updateDisplay();
     }
 
     public reset() {
@@ -65,7 +79,22 @@ class RoundManager {
         let str_minutes = minutes < 10 ? `0${minutes}` : minutes;
         let str_seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-        this._statusBarText.text = `${str_minutes}:${str_seconds} - ${this.text}`;
+        this.statusBarText.text = `${this.icon} ${str_minutes}:${str_seconds} - ${this.text}`;
+        this.statusBarText.tooltip = this.toolTip;
+        if(this.dojoStatus === DojoStatus.Stoped) {
+            this.statusBarText.command = 'extension.startRoundDojo';
+        }else {
+            this.statusBarText.command = 'extension.stopRoundDojo';
+        }
+        /*if(this.dojoStatus === DojoStatus.Stoped) {
+            this.statusBarText.text = `$(triangle-right)  ${this.statusBarText.text}`;
+            this.statusBarText.command = 'extension.startRoundDojo';
+            this.statusBarText.tooltip = 'Start Dojo';
+        }else if(this.dojoStatus === DojoStatus.Working) {
+            this.statusBarText.text = `$(primitive-square)  ${this.statusBarText.text}`;
+            this.statusBarText.command = 'extension.stopRoundDojo';
+            this.statusBarText.tooltip =  'Stop Dojo';
+        }*/
     }
 }
 
