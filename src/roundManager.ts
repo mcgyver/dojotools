@@ -1,5 +1,6 @@
 import { DojoStatus } from './dojoStatus';
 import { window, StatusBarAlignment, StatusBarItem } from 'vscode';
+import * as vscode from 'vscode';
 
 class RoundManager {
     private seconds: number = 0;
@@ -10,14 +11,12 @@ class RoundManager {
     private icon: string = `$(triangle-right) `;
     private statusBarText: StatusBarItem;
     private dojoStatus: DojoStatus = DojoStatus.Stoped;
-
     private text: string = "";
 
 
     constructor(time: number) {
         this.time = time;
         this.seconds = time;
-
         this.statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
         this.statusBarText.show();
         this.text = "Stoped";
@@ -33,7 +32,6 @@ class RoundManager {
             this.icon = `$(primitive-square)`;
             this.statusBarText.command = 'extension.stopRoundDojo';
             this.countingSeconds();
-            
         }
     }
 
@@ -48,6 +46,8 @@ class RoundManager {
     }
 
     public reset() {
+        const getConfiguration = () => vscode.workspace.getConfiguration('dojotools');
+        this.time = Number.parseInt(getConfiguration().time);
         this.text = "Not Running";
         this.seconds = this.time;
         this.updateDisplay();
